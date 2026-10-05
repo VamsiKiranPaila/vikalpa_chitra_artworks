@@ -1,0 +1,38 @@
+[
+  {
+    "id": "VC-001",
+    "title": "Whispers of the Monsoon",
+    "year": 2026,
+    "medium": "Watercolour on paper",
+    "dimensions": "30 × 42 cm",
+    "location": "Hyderabad, India",
+    "story": "A quiet monsoon moment where rain, memory and warm light meet. Replace this text with the real story of your artwork.",
+    "image": "assets/images/VC-001.svg",
+    "audio": "assets/audio/VC-001.mp3",
+    "featured": true
+  },
+  {
+    "id": "VC-002",
+    "title": "Red Earth, Blue Sky",
+    "year": 2026,
+    "medium": "Acrylic on canvas",
+    "dimensions": "60 × 90 cm",
+    "location": "Andhra Pradesh, India",
+    "story": "A study of earth, distance and open skies, inspired by the landscapes and visual memory of South India.",
+    "image": "assets/images/VC-002.svg",
+    "audio": "assets/audio/VC-002.mp3",
+    "featured": true
+  },
+  {
+    "id": "VC-003",
+    "title": "Quiet Street, Old City",
+    "year": 2026,
+    "medium": "Graphite & charcoal",
+    "dimensions": "29.7 × 42 cm",
+    "location": "Hyderabad, India",
+    "story": "An imagined street at the edge of evening, built from small architectural details, shadow and silence.",
+    "image": "assets/images/VC-003.svg",
+    "audio": "assets/audio/VC-003.mp3",
+    "featured": true
+  }
+]
