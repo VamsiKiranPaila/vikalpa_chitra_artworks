@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500">
+<defs>
+ <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#70828a"/><stop offset="1" stop-color="#b9c8bd"/></linearGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="35"/></filter>
+</defs>
+<rect width="1200" height="1500" fill="#eee8dc"/>
+<rect x="90" y="90" width="1020" height="1320" rx="10" fill="url(#g)"/>
+<circle cx="310" cy="370" r="210" fill="#d9a36f" opacity=".36" filter="url(#blur)"/>
+<path d="M100 1110 C320 900 410 1160 600 930 C790 700 900 1060 1110 820 L1110 1410 L90 1410Z" fill="#2e3b32" opacity=".76"/>
+<path d="M90 1060 C310 860 440 1080 620 910 C810 730 920 960 1110 770" fill="none" stroke="#f5f0e5" stroke-width="16" opacity=".7"/>
+<text x="150" y="1220" fill="#fffaf0" font-family="Georgia,serif" font-size="54">Whispers of the Monsoon</text>
+<text x="150" y="1290" fill="#fffaf0" font-family="Arial,sans-serif" font-size="25" letter-spacing="5">VC-001</text>
+</svg>
