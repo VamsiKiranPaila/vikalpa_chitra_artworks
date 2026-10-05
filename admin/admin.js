@@ -63,10 +63,17 @@ function requireConfig(){
   return true;
 }
 
+async function isApprovedManager(){
+  const {data,error}=await sb.from("admin_users").select("user_id").limit(1);
+  return !error && Array.isArray(data) && data.length > 0;
+}
 async function sessionCheck(){
   if(!requireConfig()) return;
   const {data} = await sb.auth.getSession();
-  if(data.session) openManager();
+  if(data.session){
+    if(await isApprovedManager()) openManager();
+    else { await sb.auth.signOut(); show(loginNotice,"This mobile number is authenticated but is not approved as a Vikalpa Chitra manager.","error"); }
+  }
 }
 
 async function sendOtp(e){
@@ -122,6 +129,13 @@ async function verifyOtp(){
   }
   if(!data?.session){
     show(loginNotice,"OTP verified, but a session was not created.","error");
+    verifyOtpBtn.disabled=false;
+    verifyOtpBtn.textContent="Verify & sign in";
+    return;
+  }
+  if(!(await isApprovedManager())){
+    await sb.auth.signOut();
+    show(loginNotice,"OTP verified, but this mobile number is not approved as a Vikalpa Chitra manager.","error");
     verifyOtpBtn.disabled=false;
     verifyOtpBtn.textContent="Verify & sign in";
     return;
