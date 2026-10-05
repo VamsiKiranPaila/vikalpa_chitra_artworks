@@ -1,38 +1,11 @@
 window.ARTWORKS = [
-  {
-    "id": "VC-001",
-    "title": "Whispers of the Monsoon",
-    "year": 2026,
-    "medium": "Watercolour on paper",
-    "dimensions": "30 × 42 cm",
-    "location": "Hyderabad, India",
-    "story": "A quiet monsoon moment where rain, memory and warm light meet. Replace this text with the real story of your artwork.",
-    "image": "assets/images/VC-001.svg",
-    "audio": "assets/audio/VC-001.mp3",
-    "featured": true
-  },
-  {
-    "id": "VC-002",
-    "title": "Red Earth, Blue Sky",
-    "year": 2026,
-    "medium": "Acrylic on canvas",
-    "dimensions": "60 × 90 cm",
-    "location": "Andhra Pradesh, India",
-    "story": "A study of earth, distance and open skies, inspired by the landscapes and visual memory of South India.",
-    "image": "assets/images/VC-002.svg",
-    "audio": "assets/audio/VC-002.mp3",
-    "featured": true
-  },
-  {
-    "id": "VC-003",
-    "title": "Quiet Street, Old City",
-    "year": 2026,
-    "medium": "Graphite & charcoal",
-    "dimensions": "29.7 × 42 cm",
-    "location": "Hyderabad, India",
-    "story": "An imagined street at the edge of evening, built from small architectural details, shadow and silence.",
-    "image": "assets/images/VC-003.svg",
-    "audio": "assets/audio/VC-003.mp3",
-    "featured": true
-  }
+  {"id":"VC-001","title":"Whispers of the Monsoon","year":2026,"medium":"Watercolour on paper","dimensions":"30 × 42 cm","location":"Hyderabad, India","story":"A quiet monsoon moment where rain, memory and warm light meet. Replace this demo with the real story of the work.","image":"assets/images/VC-001.svg","audio_url":"","featured":true,"published":true},
+  {"id":"VC-002","title":"Red Earth, Blue Sky","year":2026,"medium":"Acrylic on canvas","dimensions":"60 × 90 cm","location":"Andhra Pradesh, India","story":"A study of earth, distance and open skies, inspired by the landscapes and visual memory of South India.","image":"assets/images/VC-002.svg","audio_url":"","featured":true,"published":true},
+  {"id":"VC-003","title":"Quiet Street, Old City","year":2026,"medium":"Graphite & charcoal","dimensions":"29.7 × 42 cm","location":"Hyderabad, India","story":"An imagined street at the edge of evening, built from architectural details, shadow and silence.","image":"assets/images/VC-003.svg","audio_url":"","featured":true,"published":true},
+  {"id":"VC-004","title":"Rain on the Courtyard","year":2026,"medium":"Watercolour on paper","dimensions":"38 × 56 cm","location":"Hyderabad, India","story":"Rain turns a familiar courtyard into a softer world. The work explores the stillness that arrives between two bursts of monsoon weather.","image":"assets/images/VC-004.svg","audio_url":"","featured":false,"published":true},
+  {"id":"VC-005","title":"Temple Light","year":2026,"medium":"Watercolour & ink","dimensions":"30 × 42 cm","location":"South India","story":"A warm study of temple architecture at the edge of evening, where stone, light and ritual create a quiet rhythm.","image":"assets/images/VC-005.svg","audio_url":"","featured":false,"published":true},
+  {"id":"VC-006","title":"Stillness","year":2026,"medium":"Charcoal on paper","dimensions":"29.7 × 42 cm","location":"Hyderabad, India","story":"A minimal study built from mass, shadow and gesture. The piece asks the viewer to slow down and stay with the silence.","image":"assets/images/VC-006.svg","audio_url":"","featured":false,"published":true},
+  {"id":"VC-007","title":"Botanical Memory","year":2026,"medium":"Mixed media","dimensions":"30 × 42 cm","location":"India","story":"An imagined botanical page carrying the feeling of old gardens, pressed leaves and memories that refuse to fade.","image":"assets/images/VC-007.svg","audio_url":"","featured":false,"published":true},
+  {"id":"VC-008","title":"Blue Hour","year":2026,"medium":"Watercolour on paper","dimensions":"38 × 56 cm","location":"Vizag, India","story":"The short transition between day and night becomes a study of cool air, distant forms and the last light on the horizon.","image":"assets/images/VC-008.svg","audio_url":"","featured":false,"published":true},
+  {"id":"VC-009","title":"Lines of Home","year":2026,"medium":"Graphite & mixed media","dimensions":"30 × 42 cm","location":"Andhra Pradesh, India","story":"A collection of remembered forms, windows and thresholds. It is less about one house and more about the feeling of home.","image":"assets/images/VC-009.svg","audio_url":"","featured":false,"published":true}
 ];
