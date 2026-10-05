@@ -1,25 +1,15 @@
-# Vikalpa Chitra Artworks
+# Vikalpa Chitra Artworks · Scalable Gallery
 
-A static, mobile-first digital gallery for Vikalpa Chitra.
+This gallery is data-driven. Artwork details live in `data/artworks.json`, while `artwork/index.html` is a single reusable artwork template.
 
-## Structure
-- `index.html` - gallery landing page
-- `artwork/VC-001/` etc. - individual artwork pages
-- `assets/images/` - artwork images
-- `assets/audio/` - artist voice notes
-- `assets/css/style.css` - visual styling
+## Add artwork
+1. Add an image under `assets/images/`.
+2. Add an MP3 under `assets/audio/`.
+3. Add one record to `data/artworks.json`.
+4. Commit the change.
 
-## GitHub Pages
-Repository: https://github.com/VamsiKiranPaila/vikalpa_chitra_artworks
+## URL pattern
+`https://vamsikiranpaila.github.io/vikalpa_chitra_artworks/artwork/?id=VC-001`
 
-Enable:
-Settings → Pages → Deploy from branch → `main` → `/ (root)` → Save
-
-Expected gallery URL:
-https://vamsikiranpaila.github.io/vikalpa_chitra_artworks/
-
-Individual artwork:
-https://vamsikiranpaila.github.io/vikalpa_chitra_artworks/artwork/VC-001/
-
-## Replacing dummy content
-Replace the SVG files in `assets/images/` with your artwork images, and add matching MP3 files in `assets/audio/`.
+When the custom domain is connected, use:
+`https://vikalpachitra.com/artwork/?id=VC-001`
