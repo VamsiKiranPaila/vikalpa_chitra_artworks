@@ -1,59 +1,15 @@
-function getLocalArtworks(){ return window.ARTWORKS || []; }
-function publicConfigured(){ return !!(window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url && window.SUPABASE_CONFIG.anonKey); }
-function esc(v){ return String(v ?? "").replace(/[&<>"']/g, function(m){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]; }); }
-async function getSupabase(){
-  if(!publicConfigured()) return null;
-  if(!window.__supabaseClient){
-    const mod = await import("https://esm.sh/@supabase/supabase-js@2");
-    window.__supabaseClient = mod.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
-  }
-  return window.__supabaseClient;
-}
-async function loadArtworks(){
-  const local = getLocalArtworks();
-  try{
-    const sb = await getSupabase();
-    if(!sb) return local;
-    const result = await sb.from("artworks").select("*").order("featured",{ascending:false}).order("year",{ascending:false}).order("created_at",{ascending:false});
-    if(result.error || !Array.isArray(result.data)) return local;
-    return result.data.length ? result.data : local;
-  }catch(e){ return local; }
-}
-function card(a){
-  return '<a class="card" href="artwork/?id='+encodeURIComponent(a.id)+'">'+
-    '<div class="thumb"><img src="'+esc(a.image_url || a.image || '')+'" alt="'+esc(a.title)+'" loading="lazy"></div>'+
-    '<div class="body"><div class="title">'+esc(a.title)+'</div><div class="meta">'+esc(a.year)+' · '+esc(a.medium)+'</div></div></a>';
-}
-async function renderHome(){
-  const root=document.querySelector("#gallery");
-  try{
-    const data=await loadArtworks();
-    root.innerHTML=data.length ? data.map(card).join("") : '<div class="status">No artworks published yet.</div>';
-  }catch(e){ root.innerHTML='<div class="status">Gallery could not be loaded.</div>'; }
-}
-async function renderArtwork(){
-  const id=new URLSearchParams(location.search).get("id");
-  const root=document.querySelector("#artwork");
-  try{
-    const data=await loadArtworks();
-    const a=data.find(function(x){ return x.id===id; });
-    if(!a){ root.innerHTML='<div class="status">Artwork not found. <a href="../">Return to gallery.</a></div>'; return; }
-    const image= a.image_url || a.image || "";
-    const audio= a.audio_url || "";
-    document.title = a.title + " · Vikalpa Chitra";
-    let voice = "";
-    if(audio){
-      voice = '<section class="voice"><h3>Listen to the artist</h3><p>Hear the artist\'s own voice behind the work.</p><audio controls preload="none" src="'+esc(audio)+'"></audio></section>';
-    }
-    root.innerHTML =
-      '<a class="back" href="../">← All artworks</a>'+
-      '<div class="layout"><div class="image"><img src="'+esc(image)+'" alt="'+esc(a.title)+'"></div>'+
-      '<div class="copy"><div class="eyebrow">'+esc(a.id)+'</div><h1>'+esc(a.title)+'</h1><div class="sub">A work by Vikalpa Chitra</div>'+
-      '<div class="facts"><div class="fact"><b>Year</b>'+esc(a.year)+'</div><div class="fact"><b>Medium</b>'+esc(a.medium)+'</div>'+
-      '<div class="fact"><b>Dimensions</b>'+esc(a.dimensions)+'</div><div class="fact"><b>Location</b>'+esc(a.location)+'</div></div>'+
-      '<p class="story">'+esc(a.story || '')+'</p>'+voice+
-      '<section class="qr"><div class="eyebrow">Artwork ID</div><p>This artwork has a permanent ID: <strong>'+esc(a.id)+'</strong>.</p><div class="qr-code">QR<br>READY</div><p>Generate the printable QR from this page URL after the custom domain is connected.</p></section>'+
-      '<section class="artist"><div class="eyebrow">About the artist</div><p>Vikalpa Chitra is the artist identity of Paila Vamsi Kiran, working across watercolour, graphite, charcoal, acrylic and texture-based art.</p></section>'+
-      '</div></div>';
-  }catch(e){ root.innerHTML='<div class="status">Artwork could not be loaded.</div>'; }
-}
+function localArtworks(){return window.ARTWORKS||[];}
+function publicConfigured(){return !!(window.SUPABASE_CONFIG&&window.SUPABASE_CONFIG.url&&window.SUPABASE_CONFIG.anonKey);}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
+function category(a){const m=String(a.medium||"").toLowerCase();if(m.includes("watercolour")||m.includes("watercolor"))return"Watercolour";if(m.includes("acrylic"))return"Acrylic";if(m.includes("graphite")||m.includes("charcoal"))return"Drawing";return"Mixed Media";}
+function media(path,detail){if(!path)return"";if(/^https?:\/\//i.test(path)||path.startsWith("data:"))return path;return detail?"../"+String(path).replace(/^\.?\//,""):String(path).replace(/^\.?\//,"");}
+async function getSupabase(){if(!publicConfigured())return null;if(!window.__sb){const mod=await import("https://esm.sh/@supabase/supabase-js@2");window.__sb=mod.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.anonKey);}return window.__sb;}
+async function loadArtworks(){const local=localArtworks().filter(a=>a.published!==false);try{const sb=await getSupabase();if(!sb)return local;const r=await sb.from("artworks").select("*").eq("published",true).order("featured",{ascending:false}).order("year",{ascending:false}).order("created_at",{ascending:false});if(r.error)return local;return Array.isArray(r.data)&&r.data.length?r.data:local;}catch(e){return local;}}
+function card(a){const image=media(a.image_url||a.image,false);const hasAudio=!!(a.audio_url||a.audio);return '<a class="art-card" href="artwork/?id='+encodeURIComponent(a.id)+'"><div class="card-image"><img src="'+esc(image)+'" alt="'+esc(a.title)+'" loading="lazy"><div class="card-overlay"><span>'+esc(a.id)+'</span><span>View work ↗</span></div></div><div class="card-meta"><div><div class="card-title">'+esc(a.title)+'</div><div class="card-medium">'+esc(a.medium||"")+'</div></div><div class="card-badges"><span class="mini-badge">QR</span>'+(hasAudio?'<span class="mini-badge">Voice</span>':'')+'</div></div></a>';}
+async function renderHome(){const gallery=document.querySelector("#gallery"),filters=document.querySelector("#filters"),hero=document.querySelector("#featuredHero");try{const data=await loadArtworks();const featured=data.find(a=>a.featured)||data[0];if(featured&&hero){hero.innerHTML='<a class="hero-frame" href="artwork/?id='+encodeURIComponent(featured.id)+'"><img src="'+esc(media(featured.image_url||featured.image,false))+'" alt="'+esc(featured.title)+'"><span class="hero-caption"><b>'+esc(featured.title)+'</b><small>'+esc(featured.medium||"")+'</small></span></a><div class="hero-tag">Featured · '+esc(featured.id)+'</div>';}const cats=["All",...Array.from(new Set(data.map(category)))];filters.innerHTML=cats.map((c,i)=>'<button class="filter-btn '+(i===0?"active":"")+'" data-filter="'+esc(c)+'">'+esc(c)+'</button>').join("");const draw=f=>{gallery.innerHTML=data.filter(a=>f==="All"||category(a)===f).map(card).join("");};draw("All");filters.querySelectorAll(".filter-btn").forEach(b=>b.addEventListener("click",()=>{filters.querySelectorAll(".filter-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");draw(b.dataset.filter);}));}catch(e){gallery.innerHTML='<div class="detail-status">Gallery could not be loaded.</div>';}}
+function speakDemo(text){if(!("speechSynthesis"in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=.9;u.pitch=1;window.speechSynthesis.speak(u);}
+function buildQr(url){const box=document.querySelector("#qrCode");if(!box)return;if(window.QRCode){box.innerHTML="";new QRCode(box,{text:url,width:190,height:190,colorDark:"#20201c",colorLight:"#fffdf8",correctLevel:QRCode.CorrectLevel.H});}}
+async function downloadQr(){const qr=document.querySelector("#qrCode");if(!qr)return;const img=qr.querySelector("img");const canvas=qr.querySelector("canvas");let src=img?.src||canvas?.toDataURL("image/png");if(!src)return;const a=document.createElement("a");a.href=src;a.download=(document.body.dataset.artId||"artwork")+"-QR.png";a.click();}
+function printQr(){const box=document.querySelector("#qrCode"),a=box?.querySelector("img"),c=box?.querySelector("canvas");const src=a?.src||c?.toDataURL("image/png");if(!src)return;const title=document.body.dataset.artTitle||"Vikalpa Chitra";const id=document.body.dataset.artId||"";const w=window.open("","_blank","width=600,height=700");w.document.write('<!doctype html><html><head><title>'+title+'</title><style>body{font-family:Arial;text-align:center;padding:40px}img{width:300px;height:300px}h1{font-weight:400}small{color:#777}</style></head><body><h1>'+esc(title)+'</h1><p>'+esc(id)+'</p><img src="'+src+'"><p>Scan to explore the artwork</p><script>window.onload=()=>window.print()<\/script></body></html>');w.document.close();}
+function bindArtworkActions(a,url){document.querySelector("#copyLink")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(url);document.querySelector("#copyLink").textContent="Link copied";setTimeout(()=>document.querySelector("#copyLink").textContent="Copy link",1600);}catch(e){}});document.querySelector("#downloadQr")?.addEventListener("click",downloadQr);document.querySelector("#printQr")?.addEventListener("click",printQr);document.querySelector("#demoVoice")?.addEventListener("click",()=>speakDemo(a.story||""));buildQr(url);}
+async function renderArtwork(){const root=document.querySelector("#artwork");const id=new URLSearchParams(location.search).get("id");try{const data=await loadArtworks();const a=data.find(x=>x.id===id);if(!a){root.innerHTML='<div class="detail-status">Artwork not found. <a href="../">Return to gallery.</a></div>';return;}const image=media(a.image_url||a.image,true);const audio=media(a.audio_url||a.audio,true);const url=window.location.href;document.body.dataset.artId=a.id;document.body.dataset.artTitle=a.title;document.title=a.title+" · Vikalpa Chitra";const voice=audio?'<section class="voice-card"><div class="voice-top"><div><span class="eyebrow">Artist voice</span><h3>Hear the story</h3></div><span class="voice-icon">◖))</span></div><audio controls preload="none" src="'+esc(audio)+'"></audio><p class="micro-note">A recording from the artist’s archive.</p></section>':'<section class="voice-card"><div class="voice-top"><div><span class="eyebrow">Artist voice</span><h3>Hear the story</h3></div><span class="voice-icon">◖))</span></div><p class="voice-placeholder">Your recorded voice note will appear here when you add it from the Artwork Manager.</p><button class="btn secondary" id="demoVoice">Preview demo narration</button></section>';root.innerHTML='<a class="back-link" href="../#works">← Back to collection</a><div class="detail-grid"><div class="detail-visual"><div class="large-frame"><img src="'+esc(image)+'" alt="'+esc(a.title)+'"></div><div class="visual-caption"><span>'+esc(a.id)+'</span><span>'+esc(a.medium||"")+'</span></div></div><div class="detail-copy"><div class="eyebrow">'+esc(a.id)+'</div><h1>'+esc(a.title)+'</h1><p class="detail-intro">'+esc(a.story||"")+'</p><div class="facts"><div><small>Year</small><strong>'+esc(a.year||"")+'</strong></div><div><small>Medium</small><strong>'+esc(a.medium||"")+'</strong></div><div><small>Dimensions</small><strong>'+esc(a.dimensions||"")+'</strong></div><div><small>Place</small><strong>'+esc(a.location||"")+'</strong></div></div>'+voice+'<section class="qr-card"><div><span class="eyebrow">Scan & discover</span><h3>Take this artwork with you.</h3><p>Use this QR code on the exhibition card or print a copy beside the original work.</p></div><div id="qrCode" class="qr-code"></div><div class="qr-actions"><button class="btn secondary" id="downloadQr">Download QR</button><button class="btn secondary" id="printQr">Print QR</button><button class="text-link" id="copyLink">Copy link</button></div></section><section class="share-strip"><span>Permanent artwork page</span><code>'+esc(url)+'</code></section></div></div>';bindArtworkActions(a,url);}catch(e){root.innerHTML='<div class="detail-status">Artwork could not be loaded.</div>';}}
