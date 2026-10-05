@@ -61,3 +61,20 @@ Keep the artwork ID permanent once a QR code has been printed.
 ## Offline note
 
 The public gallery can fall back to the local demo catalog, and the source files can be kept as an offline copy. Real Supabase content requires internet access. For an exhibition with no internet, we can add an exportable offline package or local Wi-Fi gallery in a later step.
+
+
+## Manager login: mobile OTP
+
+The manager uses passwordless SMS OTP.
+
+### Supabase setup
+1. In Authentication → Providers, enable **Phone**.
+2. Configure an SMS provider. Supabase currently supports providers such as Twilio, MessageBird and Vonage; TextLocal is community-supported. SMS provider configuration is required for production phone OTP. citeturn371435search2turn371435search4
+3. Create the manager's phone user in Authentication → Users and note its UUID.
+4. Run `supabase-admin-otp.sql`. Replace `YOUR-MANAGER-USER-UUID` with that user's UUID and uncomment the INSERT.
+5. The manager page uses `signInWithOtp({ phone, options: { shouldCreateUser: false } })` and `verifyOtp({ phone, token, type: "sms" })`. This prevents an unknown phone number from creating a new manager account. Supabase documents these phone OTP methods. citeturn371435search0turn371435search3
+
+### Manager URL
+`https://vamsikiranpaila.github.io/vikalpa_chitra_artworks/admin/`
+
+OTP requests are rate-limited by Supabase by default; the current phone-auth documentation notes a 60-second request interval. citeturn371435search2
