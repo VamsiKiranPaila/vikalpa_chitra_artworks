@@ -89,8 +89,9 @@ a{color:inherit}.shell{min-height:100vh}.topbar{height:76px;background:rgba(255,
   </div>
 </section>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../assets/js/config.js"></script>
-<script type="module" src="./admin.js"></script>
+<script src="./admin.js"></script>
 <script>
 document.querySelectorAll("[data-scroll]").forEach(function(b){b.addEventListener("click",function(){document.getElementById(b.dataset.scroll)?.scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".nav-link").forEach(function(x){x.classList.remove("active")});b.classList.add("active");});});
 </script>
