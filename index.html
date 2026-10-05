@@ -1,1 +1,144 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Vikalpa Chitra · Art, Stories & Possibilities</title><link rel="stylesheet" href="assets/style.css?v=20261005-10"></head><body><div class="site"><header class="topbar"><div class="wrap nav"><a class="logo" href="#"><i>✦</i><span>Vikalpa<br>Chitra</span></a><nav class="links"><a href="#home">Home</a><a href="#works">Artworks</a><a href="#about">About</a><a href="#services">Services</a><a href="#contact">Contact</a></nav><a class="cta" href="#works">Explore Works →</a></div></header><main><section id="home" class="hero wrap"><div class="hero-copy"><div class="script">Stories in colours</div><h1>Every Artwork<br>A Different<br><em>Possibility</em></h1><p>Vikalpa Chitra is a space for art, stories and everyday inspiration. Through sketches, watercolours and mixed media, I explore places, people and possibilities.</p><div class="hero-actions"><a class="button" href="#works">Explore Artworks →</a><button class="watch" onclick="speakHero()">◉ &nbsp; Watch my story</button></div></div><div class="hero-visual"><div class="scribble">Art<br>Travel<br>People<br>Stories</div><div class="leaf"><img src="assets/decor/leaf.svg" alt=""></div><div class="brush"></div><div class="burst"><img src="assets/decor/burst.svg" alt=""></div><div class="hero-image"><img src="assets/images/vamsi-beach.webp" alt="Vikalpa Chitra personal portrait"></div></div></section><section id="works" class="works wrap"><div class="work-head"><div><div class="eyebrow">The collection</div><h2>Selected Works <span style="color:var(--orange)">✦</span></h2></div><p>Small stories, big worlds. Explore each artwork with its own story, voice note and QR-ready page.</p></div><div class="tabs"><button class="tab active" onclick="filterWorks('All',this)">All</button><button class="tab" onclick="filterWorks('Watercolour',this)">Watercolour</button><button class="tab" onclick="filterWorks('Acrylic',this)">Acrylic</button><button class="tab" onclick="filterWorks('Drawing',this)">Drawing</button><button class="tab" onclick="filterWorks('Mixed Media',this)">Mixed Media</button></div><div id="gallery" class="grid"></div></section><section id="about" class="about"><div class="wrap about-inner"><div class="about-visual"><img src="assets/images/vamsi-beach.webp" alt="Vikalpa Chitra portrait"></div><div class="about-copy"><div class="eyebrow" style="color:var(--yellow)">About the artist</div><h2>I’m Vamsi Kiran, an artist and explorer.</h2><p>I sketch places, people and moments that stay with me. Vikalpa Chitra is my ongoing journey to find possibilities through art.</p><a class="button" href="#contact">More about my journey →</a></div></div></section><section id="services" class="services wrap"><div class="service red"><div class="eyebrow" style="color:var(--yellow)">Commissions & collaborations</div><h2>Let’s create together.</h2><p>Custom artworks, live sketching, events and creative collaborations.</p><a class="button" style="background:var(--yellow);color:var(--dark)" href="#contact">Let’s create together →</a><div class="flower">✿</div></div><div class="service yellow"><div class="eyebrow" style="color:var(--red)">Say Hello</div><h2>Have a question, a collaboration idea or a custom artwork?</h2><p>I’d love to hear from you.</p><a class="button" style="background:transparent;color:var(--red);border:1px solid var(--red)" href="#contact">Get in touch →</a><div class="flower" style="color:var(--red)">➤</div></div></section><section id="contact" class="contact wrap"><div><div class="eyebrow">Contact</div><h2>Keep in touch.</h2><p>For commissions, exhibitions, collaborations and art enquiries.</p></div><div><a href="https://instagram.com/vikalpa_chitra" target="_blank">@vikalpa_chitra ↗</a><a href="mailto:hello@vikalpachitra.com">hello@vikalpachitra.com ↗</a></div></section></main><footer class="footer wrap"><div>Vikalpa Chitra</div><div>Art · Travel · People · Stories</div><div>© 2026</div></footer><nav class="mobile-nav"><a href="#home">⌂<span>Home</span></a><a href="#works">◌<span>Artworks</span></a><a href="#about">◡<span>About</span></a><a href="#contact">♡<span>Contact</span></a></nav></div><script src="assets/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7D9C65">
+<title>Vikalpa Chitra · Art, Stories & Possibilities</title>
+<meta name="description" content="Vikalpa Chitra is a space for art, stories and everyday inspiration.">
+<link rel="stylesheet" href="assets/style.css?v=20261005-11">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body data-base="./">
+<div class="site">
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="./"><span class="logo-mark">✦</span><span>Vikalpa<br>Chitra</span></a>
+    <nav class="links">
+      <a href="#home">Home</a><a href="#works">Artworks</a><a href="#about">About</a><a href="#services">Services</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="cta" href="#works">Explore Works <span>→</span></a>
+  </div>
+</header>
+
+<main>
+<section id="home" class="hero wrap">
+  <div class="hero-copy">
+    <div class="script">Stories in colours</div>
+    <h1>Every Artwork<br>A Different<br><em>Possibility</em></h1>
+    <p>Vikalpa Chitra is a space for art, stories and everyday inspiration. Through sketches, watercolours and mixed media, I explore places, people and possibilities.</p>
+    <div class="hero-actions">
+      <a class="button" href="#works">Explore Artworks <span>→</span></a>
+      <button class="watch" id="storyBtn" type="button"><span class="play-dot">▶</span> Watch my story</button>
+    </div>
+  </div>
+
+  <div class="hero-visual" id="heroVisual">
+    <div class="hero-scribble">Art<br>Travel<br>People<br>Stories</div>
+    <img class="doodle leaf" src="assets/decor/leaf.svg" alt="" aria-hidden="true">
+    <img class="doodle burst" src="assets/decor/burst.svg" alt="" aria-hidden="true">
+    <div class="hero-brush hero-brush-a"></div>
+    <div class="hero-brush hero-brush-b"></div>
+
+    <div class="hero-carousel">
+      <article class="hero-slide active">
+        <div class="hero-photo"><img src="assets/images/vamsi-beach.webp" alt="Vikalpa Chitra by the sea"></div>
+        <div class="slide-caption"><span>01 / 03</span><strong>Art · Travel · People</strong></div>
+      </article>
+      <article class="hero-slide">
+        <div class="hero-photo"><img src="assets/images/art-01.svg" alt="Featured artwork"></div>
+        <div class="slide-caption"><span>02 / 03</span><strong>Whispers of the Monsoon</strong></div>
+      </article>
+      <article class="hero-slide">
+        <div class="hero-photo"><img src="assets/images/art-02.svg" alt="Featured artwork"></div>
+        <div class="slide-caption"><span>03 / 03</span><strong>Streets of Vizag</strong></div>
+      </article>
+      <div class="hero-dots" aria-label="Hero carousel controls">
+        <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+        <button class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+        <button class="hero-dot" data-slide="2" aria-label="Slide 3"></button>
+      </div>
+    </div>
+
+    <div class="hero-sticker">✦<small>ART<br>JOURNAL</small></div>
+  </div>
+</section>
+
+<section id="works" class="works wrap">
+  <div class="work-head">
+    <div><div class="eyebrow">The collection</div><h2>Selected Works <span>✦</span></h2></div>
+    <p>Small stories, big worlds. Swipe through the collection and open any artwork for its story, voice note and QR page.</p>
+  </div>
+
+  <div class="tabs" id="filters">
+    <button class="tab active" data-filter="All">All</button>
+    <button class="tab" data-filter="Watercolour">Watercolour</button>
+    <button class="tab" data-filter="Acrylic">Acrylic</button>
+    <button class="tab" data-filter="Drawing">Drawing</button>
+    <button class="tab" data-filter="Mixed Media">Mixed Media</button>
+  </div>
+
+  <div class="art-carousel">
+    <button class="car-arrow prev" id="prevWorks" aria-label="Previous artworks">←</button>
+    <div id="gallery" class="grid"></div>
+    <button class="car-arrow next" id="nextWorks" aria-label="Next artworks">→</button>
+  </div>
+  <div class="carousel-hint"><span>Drag to explore</span><span>↔</span></div>
+</section>
+
+<section id="about" class="about">
+  <div class="wrap about-inner">
+    <div class="about-visual reveal">
+      <div class="about-doodle">travel<br>sketch<br>repeat</div>
+      <img src="assets/images/vamsi-beach.webp" alt="Vamsi Kiran, Vikalpa Chitra">
+    </div>
+    <div class="about-copy reveal">
+      <div class="eyebrow light">About the artist</div>
+      <h2>I’m Vamsi Kiran, an artist and explorer.</h2>
+      <p>I sketch places, people and moments that stay with me. Vikalpa Chitra is my ongoing journey to find new possibilities through art.</p>
+      <button class="button cream" id="aboutStory">More about my journey <span>→</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="services wrap">
+  <div class="service red reveal">
+    <div class="eyebrow yellow-text">Commissions & collaborations</div>
+    <h2>Let’s create<br>together.</h2>
+    <p>Custom artworks, live sketching, events and creative collaborations.</p>
+    <a class="button yellow-btn" href="#contact">Let’s create together <span>→</span></a>
+    <div class="flower">✿</div>
+  </div>
+  <div class="service yellow reveal">
+    <div class="eyebrow red-text">Say Hello</div>
+    <h2>Have a question, a collaboration idea or a custom artwork?</h2>
+    <p>I’d love to hear from you.</p>
+    <a class="button outline-red" href="#contact">Get in touch <span>→</span></a>
+    <div class="flower paper">➤</div>
+  </div>
+</section>
+
+<section id="contact" class="contact wrap reveal">
+  <div>
+    <div class="eyebrow">Contact</div>
+    <h2>Keep in touch.</h2>
+    <p>For commissions, exhibitions, collaborations and art enquiries.</p>
+  </div>
+  <div>
+    <a href="https://instagram.com/vikalpa_chitra" target="_blank" rel="noreferrer">@vikalpa_chitra ↗</a>
+    <a href="mailto:hello@vikalpachitra.com">hello@vikalpachitra.com ↗</a>
+  </div>
+</section>
+</main>
+
+<footer class="footer wrap"><div>Vikalpa Chitra</div><div>Art · Travel · People · Stories</div><div>© 2026</div></footer>
+<nav class="mobile-nav"><a href="#home">⌂<span>Home</span></a><a href="#works">◌<span>Artworks</span></a><a href="#about">◡<span>About</span></a><a href="#contact">♡<span>Contact</span></a></nav>
+</div>
+
+<script src="data/artworks.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/app.js?v=20261005-11"></script>
+<script>initGallery();initHeroCarousel();bindReveal();</script>
+</body>
+</html>
