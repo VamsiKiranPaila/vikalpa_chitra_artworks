@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vikalpa Chitra · Artwork Manager</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<div class="admin-wrap">
+  <header class="admin-top"><div class="brand">Vikalpa Chitra · Manager</div><button id="logoutBtn" class="btn secondary hidden">Log out</button></header>
+
+  <section id="loginPanel" class="admin-panel login">
+    <div class="eyebrow">Private area</div><h1>Manage artworks.</h1>
+    <p class="small">Sign in to add, edit, publish and remove artwork text, images and voice recordings.</p>
+    <div id="loginNotice" class="notice hidden"></div>
+    <form id="loginForm">
+      <div class="field"><label>Email</label><input id="email" type="email" autocomplete="username" required></div>
+      <div class="field" style="margin-top:14px"><label>Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+      <div class="actions"><button class="btn" type="submit">Sign in</button></div>
+    </form>
+  </section>
+
+  <section id="manager" class="hidden">
+    <div id="managerNotice" class="notice hidden"></div>
+    <section class="admin-panel">
+      <div style="display:flex;justify-content:space-between;gap:16px;align-items:end;flex-wrap:wrap">
+        <div><div class="eyebrow">Artwork editor</div><h2 id="formHeading">Add artwork</h2></div>
+        <button id="newBtn" class="btn secondary" type="button">New artwork</button>
+      </div>
+      <form id="artForm">
+        <div class="admin-grid">
+          <div class="field"><label>Artwork ID</label><input id="artId" required placeholder="VC-004"><div class="small">Keep IDs permanent once printed on QR cards.</div></div>
+          <div class="field"><label>Title</label><input id="title" required></div>
+          <div class="field"><label>Year</label><input id="year" type="number" min="1900" max="2200"></div>
+          <div class="field"><label>Medium</label><input id="medium" placeholder="Watercolour on paper"></div>
+          <div class="field"><label>Dimensions</label><input id="dimensions" placeholder="30 × 42 cm"></div>
+          <div class="field"><label>Location</label><input id="location" placeholder="Hyderabad, India"></div>
+          <div class="field full"><label>Artwork story</label><textarea id="story" placeholder="Write the story of the work..."></textarea></div>
+          <div class="field"><label>Artwork image</label><input id="imageFile" type="file" accept="image/*"><div id="currentImage" class="small"></div></div>
+          <div class="field"><label>Voice note</label><input id="audioFile" type="file" accept="audio/*"><div id="currentAudio" class="small"></div><div class="actions"><button id="recordBtn" class="btn secondary" type="button">Record voice</button><button id="stopBtn" class="btn secondary hidden" type="button">Stop recording</button></div><div id="recordStatus" class="record-status"></div></div>
+          <div class="checkrow full"><label><input id="published" type="checkbox" checked> Published</label><label><input id="featured" type="checkbox"> Featured</label></div>
+        </div>
+        <div class="actions"><button id="saveBtn" class="btn" type="submit">Save artwork</button><button id="cancelBtn" class="btn secondary" type="button">Cancel edit</button></div>
+      </form>
+    </section>
+
+    <section class="admin-panel">
+      <div class="eyebrow">Your archive</div><h2>Artworks</h2>
+      <div id="artList" class="admin-list"><div class="status">Loading…</div></div>
+    </section>
+  </section>
+</div>
+<script src="../assets/js/config.js"></script>
+<script type="module" src="./admin.js"></script>
+</body>
+</html>
