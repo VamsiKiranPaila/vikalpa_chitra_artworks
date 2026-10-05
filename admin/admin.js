@@ -237,6 +237,10 @@ async function loadList(){
   const {data,error}=await sb.from("artworks").select("*").order("created_at",{ascending:false});
   if(error){show(document.querySelector("#managerNotice"),error.message,"error");return;}
   artworks=data||[]; renderList();
+  const totalEl=document.querySelector("#countTotal"), pubEl=document.querySelector("#countPublished"), featEl=document.querySelector("#countFeatured");
+  if(totalEl) totalEl.textContent=artworks.length;
+  if(pubEl) pubEl.textContent=artworks.filter(a=>a.published).length;
+  if(featEl) featEl.textContent=artworks.filter(a=>a.featured).length;
 }
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
 function renderList(){
