@@ -1,5 +1,3 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
 const cfg = window.SUPABASE_CONFIG || {};
 const loginPanel = document.querySelector("#loginPanel");
 const manager = document.querySelector("#manager");
@@ -54,12 +52,13 @@ function normalizePhone(v){
 }
 
 function requireConfig(){
+  if(!window.supabase){ show(loginNotice,"The login service could not load. Refresh once or check your internet connection.","error"); return false; }
   if(!cfg.url || !cfg.anonKey){
     show(loginNotice,"Supabase is not configured yet. Add the Project URL and publishable key in assets/js/config.js.","error");
     otpForm.classList.add("hidden");
     return false;
   }
-  sb = createClient(cfg.url, cfg.anonKey);
+  sb = window.supabase.createClient(cfg.url, cfg.anonKey);
   return true;
 }
 
