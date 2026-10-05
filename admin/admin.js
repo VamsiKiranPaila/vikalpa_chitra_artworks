@@ -52,14 +52,27 @@ function normalizePhone(v){
 }
 
 function requireConfig(){
-  if(!window.supabase){ show(loginNotice,"The login service could not load. Refresh once or check your internet connection.","error"); return false; }
   if(!cfg.url || !cfg.anonKey){
     show(loginNotice,"Supabase is not configured yet. Add the Project URL and publishable key in assets/js/config.js.","error");
     otpForm.classList.add("hidden");
     return false;
   }
-  sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+  if(window.supabase && !sb) sb = window.supabase.createClient(cfg.url, cfg.anonKey);
   return true;
+}
+function authHeaders(token){
+  return { "Content-Type":"application/json", "apikey":cfg.anonKey, "Authorization":"Bearer "+token };
+}
+async function authRequest(path, body, token){
+  const headers = { "Content-Type":"application/json", "apikey":cfg.anonKey };
+  if(token) headers.Authorization="Bearer "+token;
+  const res = await fetch(cfg.url + "/auth/v1/" + path, {method:"POST",headers,body:JSON.stringify(body)});
+  let data=null; try{data=await res.json();}catch(e){}
+  if(!res.ok){
+    const msg=data?.msg || data?.message || data?.error_description || data?.error || ("Supabase returned HTTP "+res.status);
+    throw new Error(msg);
+  }
+  return data;
 }
 
 async function isApprovedManager(){
@@ -67,7 +80,7 @@ async function isApprovedManager(){
   return !error && Array.isArray(data) && data.length > 0;
 }
 async function sessionCheck(){
-  if(!requireConfig()) return;
+  if(!requireConfig() || !sb) return;
   const {data} = await sb.auth.getSession();
   if(data.session){
     if(await isApprovedManager()) openManager();
@@ -78,6 +91,7 @@ async function sessionCheck(){
 async function sendOtp(e){
   e?.preventDefault();
   hide(loginNotice);
+  if(!requireConfig()) return;
   const phone = normalizePhone(phoneInput.value);
   if(!/^\+91\d{10}$/.test(phone)){
     show(loginNotice,"Enter a valid Indian mobile number, for example +91 9876543210.","error");
@@ -85,29 +99,26 @@ async function sendOtp(e){
   }
   sendOtpBtn.disabled=true;
   sendOtpBtn.textContent="Sending…";
-  const {error}=await sb.auth.signInWithOtp({
-    phone,
-    options:{shouldCreateUser:false}
-  });
-  if(error){
-    show(loginNotice,error.message,"error");
+  try{
+    await authRequest("otp",{phone,create_user:false,channel:"sms"});
+    pendingPhone=phone;
+    phoneStep.classList.add("hidden");
+    otpStep.classList.remove("hidden");
+    otpInput.value="";
+    otpInput.focus();
+    startResendTimer(60);
+    show(loginNotice,"OTP sent to your mobile.","success");
+  }catch(err){
+    show(loginNotice,err.message||"Could not send OTP.","error");
+  }finally{
     sendOtpBtn.disabled=false;
     sendOtpBtn.textContent="Send OTP";
-    return;
   }
-  pendingPhone=phone;
-  phoneStep.classList.add("hidden");
-  otpStep.classList.remove("hidden");
-  otpInput.value="";
-  otpInput.focus();
-  startResendTimer(60);
-  show(loginNotice,"OTP sent to your mobile.","success");
-  sendOtpBtn.disabled=false;
-  sendOtpBtn.textContent="Send OTP";
 }
 
 async function verifyOtp(){
   hide(loginNotice);
+  if(!requireConfig()) return;
   const token=otpInput.value.trim();
   if(!/^\d{6}$/.test(token)){
     show(loginNotice,"Enter the 6-digit OTP.","error");
@@ -115,34 +126,37 @@ async function verifyOtp(){
   }
   verifyOtpBtn.disabled=true;
   verifyOtpBtn.textContent="Verifying…";
-  const {data,error}=await sb.auth.verifyOtp({
-    phone:pendingPhone,
-    token,
-    type:"sms"
-  });
-  if(error){
-    show(loginNotice,error.message,"error");
+  try{
+    const data=await authRequest("verify",{phone:pendingPhone,token,type:"sms"});
+    if(!data?.access_token){
+      throw new Error("OTP verified, but Supabase did not return a session.");
+    }
+
+    // Connect the authenticated session to the Supabase JS client when available.
+    if(window.supabase){
+      if(!sb) sb=window.supabase.createClient(cfg.url,cfg.anonKey);
+      const sessionResult=await sb.auth.setSession({
+        access_token:data.access_token,
+        refresh_token:data.refresh_token
+      });
+      if(sessionResult.error) throw sessionResult.error;
+    }else{
+      throw new Error("OTP verified, but the manager service could not finish loading. Refresh the page once and try again.");
+    }
+
+    if(!(await isApprovedManager())){
+      await sb.auth.signOut();
+      show(loginNotice,"OTP verified, but this mobile number is not approved as a Vikalpa Chitra manager.","error");
+      return;
+    }
+    clearResendTimer();
+    openManager();
+  }catch(err){
+    show(loginNotice,err.message||"Could not verify OTP.","error");
+  }finally{
     verifyOtpBtn.disabled=false;
-    verifyOtpBtn.textContent="Verify & sign in";
-    return;
+    verifyOtpBtn.textContent="Verify & enter";
   }
-  if(!data?.session){
-    show(loginNotice,"OTP verified, but a session was not created.","error");
-    verifyOtpBtn.disabled=false;
-    verifyOtpBtn.textContent="Verify & sign in";
-    return;
-  }
-  if(!(await isApprovedManager())){
-    await sb.auth.signOut();
-    show(loginNotice,"OTP verified, but this mobile number is not approved as a Vikalpa Chitra manager.","error");
-    verifyOtpBtn.disabled=false;
-    verifyOtpBtn.textContent="Verify & sign in";
-    return;
-  }
-  verifyOtpBtn.disabled=false;
-  verifyOtpBtn.textContent="Verify & sign in";
-  clearResendTimer();
-  openManager();
 }
 
 function startResendTimer(seconds){
@@ -170,13 +184,14 @@ function clearResendTimer(){
 async function resendOtp(){
   if(Date.now()<resendAvailableAt || !pendingPhone) return;
   resendBtn.disabled=true;
-  const {error}=await sb.auth.signInWithOtp({phone:pendingPhone,options:{shouldCreateUser:false}});
-  if(error){
-    show(loginNotice,error.message,"error");
+  try{
+    await authRequest("otp",{phone:pendingPhone,create_user:false,channel:"sms"});
+    show(loginNotice,"A new OTP was sent.","success");
+  }catch(error){
+    show(loginNotice,error.message||"Could not resend OTP.","error");
     resendBtn.disabled=false;
     return;
   }
-  show(loginNotice,"A new OTP was sent.","success");
   startResendTimer(60);
 }
 function changePhone(){
