@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a95f45"/><stop offset="1" stop-color="#587b9b"/></linearGradient></defs>
+<rect width="1200" height="1500" fill="#eee8dc"/><rect x="90" y="90" width="1020" height="1320" fill="url(#g)"/>
+<circle cx="310" cy="370" r="210" fill="#e1b66d" opacity=".34"/>
+<path d="M90 1110C320 900 410 1160 600 930C790 700 900 1060 1110 820V1410H90Z" fill="#26352d" opacity=".8"/>
+<path d="M90 1060C310 860 440 1080 620 910C810 730 920 960 1110 770" fill="none" stroke="#fff8ea" stroke-width="16" opacity=".7"/>
+<text x="150" y="1220" fill="#fffaf0" font-family="Georgia,serif" font-size="54">Red Earth, Blue Sky</text>
+<text x="150" y="1290" fill="#fffaf0" font-family="Arial,sans-serif" font-size="25" letter-spacing="5">VC-002</text>
+</svg>
