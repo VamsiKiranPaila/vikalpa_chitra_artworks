@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 760">
+<rect width="820" height="760" fill="#FFF2A0"/>
+<path d="M32 80C120 15 220 54 300 24C402 -15 520 32 594 5C688 -29 762 22 808 78V728H28Z" fill="#fffbe8"/>
+<path d="M82 624C158 552 232 574 314 478C390 389 452 428 538 355C625 281 704 312 798 226V758H62Z" fill="#7D9C65"/>
+<path d="M72 685C188 594 252 676 342 566C420 470 505 532 578 435C654 334 704 381 812 294" fill="none" stroke="#263126" stroke-width="11" opacity=".78"/>
+<g stroke="#263126" stroke-width="8" fill="none" opacity=".72">
+<path d="M84 218l124-128 62 88-62 104Z"/>
+<path d="M220 240l100-160 78 113-78 126Z"/>
+<path d="M615 175l84-110 56 86-55 93Z"/>
+</g>
+<g fill="#7D9C65" opacity=".95">
+<path d="M68 175c34-36 71-54 102-48-6 40-29 73-67 89-23 10-34-11-35-41Z"/>
+<path d="M651 104c31-28 66-42 95-34-7 37-29 66-60 78-22 8-33-10-35-44Z"/>
+<path d="M740 458c32-28 63-35 84-21-13 34-38 55-70 57-23 1-25-18-14-36Z"/>
+</g>
+<g opacity=".92">
+<path d="M433 184c35-77 119-110 177-67 54 40 63 125 8 184-42 45-98 51-134 13-43-46-59-79-51-130Z" fill="#263126"/>
+<path d="M416 326c-24 51-25 104-15 156 9 46 32 80 59 98l136-37c36-29 54-76 52-128-3-76-45-131-102-148Z" fill="#4d684a"/>
+<path d="M454 387c30 18 44 39 50 74M573 367c-20 24-28 53-26 91" stroke="#FF9C4C" stroke-width="15" stroke-linecap="round"/>
+<path d="M430 530c-38 40-73 84-109 137" stroke="#263126" stroke-width="46" stroke-linecap="round"/>
+<path d="M602 500c63 48 116 94 153 135" stroke="#263126" stroke-width="49" stroke-linecap="round"/>
+<path d="M305 653c80-15 154-11 220 11 49 16 100 38 145 67H303Z" fill="#B93636" opacity=".9"/>
+<path d="M329 651l238 80" stroke="#fffbe8" stroke-width="10" opacity=".7"/>
+</g>
+<g fill="#FF9C4C"><circle cx="134" cy="104" r="22"/><circle cx="704" cy="248" r="17"/><circle cx="560" cy="125" r="13"/></g>
+<g stroke="#B93636" stroke-width="12" stroke-linecap="round" opacity=".9">
+<path d="M24 352l80-75"/><path d="M745 116l54-47"/><path d="M598 650l78 58"/><path d="M138 735l73-38"/>
+</g>
+<text x="58" y="714" fill="#263126" font-family="Georgia,serif" font-size="22" letter-spacing="3">ART · TRAVEL · PEOPLE · STORIES</text>
+</svg>
