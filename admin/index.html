@@ -12,12 +12,19 @@
 
   <section id="loginPanel" class="admin-panel login">
     <div class="eyebrow">Private area</div><h1>Manage artworks.</h1>
-    <p class="small">Sign in to add, edit, publish and remove artwork text, images and voice recordings.</p>
+    <p class="small">Sign in securely with a one-time code sent to your mobile.</p>
     <div id="loginNotice" class="notice hidden"></div>
-    <form id="loginForm">
-      <div class="field"><label>Email</label><input id="email" type="email" autocomplete="username" required></div>
-      <div class="field" style="margin-top:14px"><label>Password</label><input id="password" type="password" autocomplete="current-password" required></div>
-      <div class="actions"><button class="btn" type="submit">Sign in</button></div>
+    <form id="otpForm">
+      <div id="phoneStep">
+        <div class="field"><label>Mobile number</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9876543210" required></div>
+        <div class="small" style="margin-top:8px">Use the same mobile number registered as your Vikalpa Chitra manager account.</div>
+        <div class="actions"><button id="sendOtpBtn" class="btn" type="submit">Send OTP</button></div>
+      </div>
+      <div id="otpStep" class="hidden">
+        <div class="field"><label>6-digit OTP</label><input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="123456" required></div>
+        <div id="otpTimer" class="small" style="margin-top:8px"></div>
+        <div class="actions"><button id="verifyOtpBtn" class="btn" type="button">Verify & sign in</button><button id="resendBtn" class="btn secondary" type="button" disabled>Resend OTP</button><button id="changePhoneBtn" class="btn secondary" type="button">Change number</button></div>
+      </div>
     </form>
   </section>
 
